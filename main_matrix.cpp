@@ -8,8 +8,8 @@
 
 int main(void)
 {
-    info_about_file("onegin_text.txt");
-    fill_matrix("onegin_text.txt", Onegin_array);
+    info_about_file("textonegin.txt");
+    fill_matrix("textonegin.txt", Onegin_array);
     sort_array_set_by_matrix(Onegin_array);
     put_sorted_by_mtrx_onegin_to_file("onegin_sorted.txt", Onegin_array);
 

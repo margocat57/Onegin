@@ -5,18 +5,18 @@
 #include <ctype.h>
 #include "structures_consts.h"
 #include "swap_string.h"
-#include "work_with_file.h"
+#include "info_about_file_.h"
 
-char **read_to_ptr_array1(const char *name_of_file, file_info_fstat *info)
+char **read_to_ptr_array1(const char *name_of_file, file_info *info)
 {
     assert(name_of_file != NULL);
 
     FILE *fptr = fopen(name_of_file, "r");
-    char *buffer = (char *)calloc(info->maximum_len, sizeof(char));
-    char **text = (char **)calloc(info->amount_str, sizeof(char *));
+    char *buffer = (char *)calloc(info->max_len, sizeof(char));
+    char **text = (char **)calloc(info->strings, sizeof(char *));
     int string = 0;
 
-    while (fgets(buffer, info->maximum_len, fptr) != NULL)
+    while (fgets(buffer, info->max_len, fptr) != NULL)
     {
         buffer[strcspn(buffer, "\n")] = '\0';
         text[string] = strdup(buffer);
@@ -63,7 +63,7 @@ int str_with_min_len(char *str1, char *str2)
 
 int find_idx_of_first_letter(char *string)
 {
-    for (int idx = 0; idx < strlen(string) + 1; idx++)
+    for (int idx = 0; idx < strlen(string); idx++)
     {
         if (isalpha((string)[idx]))
         {
@@ -90,12 +90,12 @@ void check_strings_elems(char **str1, char **str2, bool *is_elem_to_sort, int id
     }
 }
 
-void sort_array_set_by_ptr1arr(char **array, file_info_fstat *info)
+void sort_array_set_by_ptr1arr(char **array, file_info *info)
 {
     assert(array != NULL);
     assert(*array != NULL);
 
-    int left = 0, right = info->amount_str - 1;
+    int left = 0, right = info->strings - 1;
     bool is_elem_to_sort = 1;
 
     while (left < right && is_elem_to_sort)
@@ -116,7 +116,7 @@ void sort_array_set_by_ptr1arr(char **array, file_info_fstat *info)
     }
 }
 
-void put_sorted_by_ptr1arr_onegin_to_file(const char *name_of_file, char **array, file_info_fstat *info)
+void put_sorted_by_ptr1arr_onegin_to_file(const char *name_of_file, char **array, file_info *info)
 {
     assert(array != NULL);
     assert(*array != NULL);
@@ -125,7 +125,7 @@ void put_sorted_by_ptr1arr_onegin_to_file(const char *name_of_file, char **array
     FILE *fptr = fopen(name_of_file, "w");
     assert(fptr != NULL);
 
-    for (int string = 0; string < info->amount_str; string++)
+    for (int string = 0; string < info->strings; string++)
     {
         if (array[string][0] != '\0')
         {
@@ -136,11 +136,12 @@ void put_sorted_by_ptr1arr_onegin_to_file(const char *name_of_file, char **array
     fclose(fptr);
 }
 
-void free_memory(char **array, file_info_fstat *info)
+void free_memory(char **array, file_info *info)
 {
-    for (int string = 0; string < info->amount_str; string++)
+    for (int string = 0; string < info->strings; string++)
     {
         free(array[string]);
     }
     free(array);
 }
+// комнаратор - отвечает за параметр сортировки, а функция универсальная

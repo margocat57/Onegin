@@ -1,5 +1,5 @@
 .PHONY: all clean
-all: matrix ptr_array1
+all: matrix ptr_array1 ptr_array2
 
 COMP=clang++
 
@@ -9,7 +9,11 @@ matrix: main_matrix.o matrix_func.o swap_string.o info_about_file_.o
 	$(COMP) $(CFLAGS) -o $@ $^
 # clang++ -o quadratic main.o input.o clear_input.o solver.o output.o comparison.o choose_output_file.o color_printf.o
 
-ptr_array1: main_ptr_array1.o ptr_func.o swap_string.o  cmd_ln_args.o work_with_file.o
+ptr_array1: main_ptr_array1.o ptr_func.o swap_string.o  cmd_ln_args.o info_about_file_.o
+	$(COMP) -o $@ $^ $(CFLAGS)
+
+
+ptr_array2: main_ptr_array2.o ptr_func2.o cmd_ln_args.o work_with_file.o
 	$(COMP) -o $@ $^ $(CFLAGS)
 
 
